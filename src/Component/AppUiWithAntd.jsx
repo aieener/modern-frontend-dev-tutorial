@@ -21,7 +21,7 @@ const AppUIWithAntd = props => {
         dataSource={props.list}
         renderItem={(item, idx) => (
           <List.Item
-            onClick={idx => {
+            onClick={() => {
               props.handleItemDelete(idx);
             }}
           >
