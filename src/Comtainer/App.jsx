@@ -8,7 +8,7 @@ import {
   getToggleStyleAction
 } from "../store/actionCreators";
 import AppUI from "../Component/AppUI";
-import AppUiWithAntd from "../Component/AppUIWithAntd";
+import AppUiWithAntd from "../Component/AppUIWithStyle";
 import { Button } from "antd";
 
 export default class App extends Component {
