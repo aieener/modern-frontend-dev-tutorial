@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import store from "../store";
 import {
   getInputChangeAction,
@@ -16,22 +16,13 @@ export default class App extends Component {
     super(props);
     this.state = store.getState();
     this.handleStoreChange = this.handleStoreChange.bind(this);
-    this.handleItemDelete = this.handleItemDelete.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleToggleStyle = this.handleToggleStyle.bind(this);
     store.subscribe(this.handleStoreChange);
   }
 
   componentDidMount() {
     // usually do ajax call to fetch data from backend here,
     // In this tutorial, we use mock data instead
-    const data = [
-      "study webpack",
-      "study babel",
-      "study React",
-      "study Redux",
-    ];
+    const data = ["study webpack", "study babel", "study React", "study Redux"];
     const action = initListAction(data);
     store.dispatch(action);
   }
@@ -60,19 +51,10 @@ export default class App extends Component {
     store.dispatch(action);
   }
 
-  render() {
-    let ui = (
-      <AppUI
-        inputValue={this.state.inputValue}
-        list={this.state.list}
-        handleInputChange={this.handleInputChange}
-        handleSubmit={this.handleSubmit}
-        handleItemDelete={this.handleItemDelete}
-      />
-    );
-    if (this.state.withAntdStyle) {
-      ui = (
-        <AppUiWithAntd
+  getUI() {
+    if (!this.state.withAntdStyle) {
+      return (
+        <AppUI
           inputValue={this.state.inputValue}
           list={this.state.list}
           handleInputChange={this.handleInputChange}
@@ -81,7 +63,18 @@ export default class App extends Component {
         />
       );
     }
+    return (
+      <AppUiWithAntd
+        inputValue={this.state.inputValue}
+        list={this.state.list}
+        handleInputChange={this.handleInputChange}
+        handleSubmit={this.handleSubmit}
+        handleItemDelete={this.handleItemDelete}
+      />
+    );
+  }
 
+  render() {
     const styleToggler = (
       <Button type="dashed" onClick={this.handleToggleStyle}>
         Toggle Style
@@ -89,10 +82,12 @@ export default class App extends Component {
     );
 
     return (
-      <div>
+      <Fragment>
         {styleToggler}
-        <div style={{display : "flex", justifyContent: "center"}}>{ui}</div>
-      </div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {this.getUI()}
+        </div>
+      </Fragment>
     );
   }
 }

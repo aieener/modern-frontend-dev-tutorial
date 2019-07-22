@@ -1,23 +1,36 @@
 import React from "react";
 
 const AppUI = props => {
-  let todoItem = props.list.map((item, idx) => {
-    return <li key={idx} onClick={() => props.handleItemDelete(idx)}>{item}</li>;
-  });
+  const {
+    list,
+    handleItemDelete,
+    inputValue,
+    handleInputChange,
+    handleSubmit
+  } = props; // ES6 syntax
+
+  const getTodoItems = () => {
+    return list.map((item, idx) => {
+      return (
+        <li key={idx} onClick={() => handleItemDelete(idx)}>
+          {item}
+        </li>
+      );
+    });
+  };
+
   return (
     <div style={{ marginTop: "10px", marginLeft: "10px" }}>
       <div>
         <input
-          value={props.inputValue}
+          value={inputValue}
           placeholder={"todo info"}
           style={{ width: "300px", marginRight: "10px" }}
-          onChange={props.handleInputChange}
+          onChange={handleInputChange}
         />
-        <button onClick={props.handleSubmit}>submit</button>
+        <button onClick={handleSubmit}>submit</button>
       </div>
-      <ul>
-        {todoItem}
-      </ul>
+      <ul>{getTodoItems()}</ul>
     </div>
   );
 };
